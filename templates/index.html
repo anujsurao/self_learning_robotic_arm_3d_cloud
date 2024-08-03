@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Self-Learning Robotic Arm</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Self-Learning Robotic Arm</h1>
+    <form id="train-form">
+        <label for="episodes">Episodes:</label>
+        <input type="number" id="episodes" name="episodes" value="1000">
+        <label for="max_steps">Max Steps per Episode:</label>
+        <input type="number" id="max_steps" name="max_steps" value="500">
+        <button type="submit">Start Training</button>
+    </form>
+    <form id="upload-form">
+        <label for="file_name">File Name:</label>
+        <input type="text" id="file_name" name="file_name">
+        <button type="submit">Upload Model</button>
+    </form>
+    <form id="download-form">
+        <label for="file_name">File Name:</label>
+        <input type="text" id="file_name" name="file_name">
+        <button type="submit">Download Model</button>
+    </form>
+    <div id="message"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $('#train-form').on('submit', function(e) {
+            e.preventDefault();
+            $.post('/train', $(this).serialize(), function(data) {
+                $('#message').text(data.message);
+            });
+        });
+
+        $('#upload-form').on('submit', function(e) {
+            e.preventDefault();
+            $.post('/upload', $(this).serialize(), function(data) {
+                $('#message').text(data.message);
+            });
+        });
+
+        $('#download-form').on('submit', function(e) {
+            e.preventDefault();
+            $.post('/download', $(this).serialize(), function(data) {
+                $('#message').text(data.message);
+            });
+        });
+    </script>
+</body>
+</html>
